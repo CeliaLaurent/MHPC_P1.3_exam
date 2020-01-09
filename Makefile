@@ -1,4 +1,4 @@
-SRC = main.cpp  
+SRC = main.cpp   
 HEADERS= bst.hpp 
 
 CXX = c++
@@ -13,11 +13,13 @@ EXE = $(SRC:.cpp=.x)
 SUFFIXES =
 
 # just consider our own suffixes
-.SUFFIXES: .cpp .o
+.SUFFIXES: .cpp .o 
 
 all: $(EXE)
 
 .PHONY: all
+
+
 
 %.o: %.cpp
 	$(CXX) $< -o $@ $(CXXFLAGS) -c
@@ -25,7 +27,7 @@ all: $(EXE)
 %.x: %.o
 	$(CXX) $^ -o $@
 
-format: $(SRC) $(HEADERS) bst.cpp
+format: $(SRC) $(HEADERS) bst.tpp
 	@clang-format -i $^ -verbose || echo "Please install clang-format to run this command"
 
 .PHONY: format
@@ -35,6 +37,6 @@ clean:
 
 .PHONY: clean
 
-main.o: bst.hpp
-main.x: bst.o
-bst.o: bst.hpp
+main.o: bst.hpp bst.tpp
+main.x: 
+
