@@ -6,12 +6,21 @@ The exam consists of a written project followed by an oral discussion.
 The written project is due to January 10, 2020, at 11:59 PM.
 You can take the oral whenever you want, but before February 21, 2020.
 
-- Use a separate git repository. 
-- You have to upload all and only the **source files** you wrote, with a **Makefile** and a **readme.md** where you describe how to compile, run your code, and a short report on what you have done, understood, and benchmarked.
-- Your code must have no memory leaks.
-- No warnings must appear if compiled with the flags `-Wall -Wextra`.
-- Don't change the name of the functions!
-- Once finished, send me either the link to the repository or a `tar.gz` with the files (`.git` folder included).
+- [x] Use a separate git repository. 
+- [x] You have to upload all and <u>only the **source files** you wrote</u>, with a **Makefile** 
+- [x] Create a **readme.md** where you describe 
+  - [x] how to compile, 
+  - [x] how to run your code, 
+  - [ ] and a short report on what you have done, understood, and benchmarked.
+- [ ] Your code must have no memory leaks. 
+
+```bash
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./main.x
+```
+
+- [ ] No warnings must appear if compiled with the flags `-Wall -Wextra`.
+- [ ] Don't change the name of the functions!
+- [ ] Once finished, send me either the link to the repository or a `tar.gz` with the files (`.git` folder included).
 
 ## Binary search tree
 

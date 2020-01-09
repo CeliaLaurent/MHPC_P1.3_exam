@@ -7,7 +7,8 @@
 int main() {
   try {
 
-  bst<int,int,int> b1{};
+  bst<int,int> b1{};
+  bst<int,std::string> b2(8,"MASTER");
   std::cout << "test ok"<< std::endl;
 
   } catch (std::exception& e) {
