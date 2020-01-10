@@ -54,23 +54,35 @@ class bst<K,V,C>::__iterator {
   template <typename K, typename V, typename C>
   template <typename OK, typename OV>
   void bst<K,V,C>::insert(OK&& new_k, OV&& new_v){
+    std::cout << "function (insert) received new node ( |"<<new_k<<"| ,"<<new_v<<")"  << std::endl;
     if(!root){
           root=std::make_unique<bst::node>(node(new_k,new_v) );
+          std::cout << "   -> (insert) created the root node |"<<root->key <<"|"<< std::endl;
       }
     else {
+       auto parent_node=root.get();
        auto test_node=root.get();
        while ( test_node ) {
+         parent_node=test_node;
          if(op( test_node->key , new_k)){
-            std::cout << "called insert op("<<test_node->key<<","<<new_k<<") returns true, go right"  << std::endl;
+            std::cout << "   -> (insert) going right after visiting node "<<test_node->key << std::endl;
             test_node=test_node->right.get();
           }
          else{
-         std::cout << "called insert op("<<test_node->key<<","<<new_k<<") returns false, go left"  << std::endl;
+            std::cout << "   -> (insert) going left after visiting node "<<test_node->key << std::endl;
             test_node=test_node->left.get();
          }
-         test_node = std::make_unique<bst::node>( new_k,new_v); 
        }
+       if(op( parent_node->key , new_k)){
+         parent_node->right = std::make_unique<bst::node>( new_k,new_v); 
+         //std::cout << "   -> (insert) created a new node |"<<parent_node->right->key <<"| on the right of parent node |"<<parent_node->key<<"|"<< std::endl;
+        }
+       else{
+         parent_node->left = std::make_unique<bst::node>( new_k,new_v); 
+         //std::cout << "   -> (insert) created a new node |"<<parent_node->left->key <<"| on the left of parent node |"<<parent_node->key<<"|"<< std::endl;
+        }
     }
+    std::cout << "------------------------------------" << std::endl;
   }
 
 

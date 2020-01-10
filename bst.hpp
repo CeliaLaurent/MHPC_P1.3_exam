@@ -20,7 +20,7 @@ class bst {
      //std::pair<K,V>{key,value}; 
 
      node(const K& k,const V& v) : key{k}, value{v} {
-       std::cout << "called node copy ctor ("<<k<<","<<v<<")" << std::endl;
+       std::cout << "called node copy ctor for ( |"<<k<<"| ,"<<v<<")" << std::endl;
      }
 
      explicit node(const std::unique_ptr<node>& p) : key{p->key}, value{p->value} {
@@ -47,7 +47,7 @@ class bst {
 
  //bst(const K key_in, const V val_in): root{new node(key_in,val_in)} { 
    bst(const K key_in, const V val_in): root{ std::make_unique<node>( node(key_in,val_in)) } { 
-	    std::cout << "called bst custom constructor creating root node with (key,val)=("<<key_in<<","<<val_in<<")" << std::endl; 
+	    std::cout << "called bst custom constructor creating root node with (key,val)=( |"<<key_in<<"| ,"<<val_in<<")" << std::endl; 
             }   ;   // custom constructor
 
 //   bst(const bst& otherbst);                            // custom copy constructor
