@@ -11,39 +11,41 @@
  /* -----------  bst iterator -------------------------------------- */ 
 
 template <typename K, typename V, typename C>
-template <typename OK , typename OV>
+//template <typename OK , typename OV>
 class bst<K,V,C>::__iterator {
-  using nodestruct = typename bst<K,V,C>::node;
-  nodestruct* current_node;
+  using nodetype = typename bst<K,V,C>::node;
+  using paircustomtype=std::pair<nodetype,bool>;//customized pair type taking a node-struct type and a bool
+  paircustomtype* current_pair;
 
  public:
-  explicit __iterator(nodestruct* x) noexcept : current_node{x} {}
+  explicit __iterator(paircustomtype* x)noexcept : current_pair{x} {}
 
-  using key_type = OK;
-  using value_type = OV;
+  using key_type = K;
+  using value_type = V;
 //using difference_type = std::ptrdiff_t;
 //using iterator_category = std::forward_iterator_tag;
   using reference = std::pair<const key_type,const value_type> &;
   using pointer = std::pair< const key_type,const value_type>*;
 
+  // now use current_node=current_pair.first;
   reference operator*() const noexcept {
-          return std::pair<key_type,value_type>(current_node->key, current_node->value); 
+          return std::pair<key_type,value_type>(current_pair.first->key, current_pair.first->value); 
           }
-  pointer operator->() const noexcept { return &(*(*this)); }
+  pointer operator->() const noexcept { return &(*(*this.first)); }
 
   __iterator& operator++() noexcept {  // pre increment
-    current_node = current_node->next.get();
-    return *this;
+    current_pair.first = current_pair.first->next.get();
+    return *this.first;
   }
 
   __iterator operator++(int) noexcept {
-    __iterator tmp{current_node};
-    ++(*this);
+    __iterator tmp{current_pair.first};
+    ++(*this.first);
     return tmp;
   }
 
   friend bool operator==(const __iterator& a, const __iterator& b) {
-    return a.current_node == b.current_node;
+    return a.current_pair.first == b.current_pair.first;
   }
   friend bool operator!=(const __iterator& a, const __iterator& b) {
     return !(a == b);

@@ -54,11 +54,11 @@ class bst {
 //   bst& operator=(const bst& otherbst);                 // custom copy assignement
 
   /* ----------- bst public iterator ----------------------------------- */ 
-  template <typename OK, typename OV>
+  //template <typename OK, typename OV>
   class __iterator;
 
-  using iterator = __iterator<K,V>;
-  using const_iterator = __iterator<const K,const V>;
+  using iterator = __iterator;
+  using const_iterator = __iterator;
 
   iterator begin() noexcept { return iterator{root.get()}; }
   iterator end() { return iterator{nullptr}; }
