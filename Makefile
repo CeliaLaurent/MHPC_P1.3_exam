@@ -37,6 +37,16 @@ clean:
 
 .PHONY: clean
 
+valgrind :
+	@$(MAKE) && valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./$(EXE)
+
+.PHONY: valgrind
+
+run :
+	@$(MAKE) &&  ./$(EXE)
+
+.PHONY: valgrind
 main.o: bst.hpp bst.tpp
 main.x: 
+
 
