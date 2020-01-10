@@ -73,6 +73,7 @@ class bst {
 
   template <typename OK, typename OV>
   void insert(OK&& new_k, OV&& new_v);
+  //std::pair<typename __iterator<K,V>,bool> insert(OK&& new_k, OV&& new_v);
 };
 #include "bst.tpp"
 

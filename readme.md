@@ -13,7 +13,7 @@ If we assume that we sort the keys in ascending order (i.e., we use the less tha
 
 ### Source code, compilation and running commands
 
-The source files that were implemented are the following :
+- The source files that were implemented are the following :
 
 ```
 main.cpp
@@ -21,15 +21,33 @@ bst.hpp
 bst.tpp
 ```
 
-a `Makefile` is as well provided, it allows to compile the code by running the `make` command.
+- A `Makefile` is as well provided, it allows to compile the code by running the command:
+
+```
+make
+```
 
 The compilation options include the flags `-Wall -Wextra`; no warnings appear when compiling.
 
 The compilation options include the flags `-O3` to insure optimization for benchmarking.
 
+- Running and testing
+
 Once compiled, the code can be run by command `./main.x`.
 
-To insure that the code has no memory leaks, it was tested (successfully) with valgrind using the command : `valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./main.x`
+To compile and run the program in one single command, use:
+
+```
+make run
+```
+
+To insure that the code has no memory leaks, it was tested (successfully) with valgrind using the command : 
+
+```
+make valgrind
+```
+
+which corresponds to the command `make` followed by  `valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./main.x`, or 
 
 
 
@@ -76,7 +94,7 @@ The following constructors were implemented:
 
 ### bst public member functions:
 
-##### Insert
+- [ ] ##### Insert
 
 ```c++
 std::pair<iterator, bool> insert(const pair_type& x);
