@@ -12,18 +12,19 @@ class bst {
 
    /* --------- node structure ----------------------------------------- */ 
    struct node {
-     K key;  // key
-     V value;// value
+     //K key;  // key
+     //V value;// value
+     std::pair<const K, V> data;
      std::unique_ptr<node> left=nullptr;
      std::unique_ptr<node> right=nullptr;
-     std::unique_ptr<node> next=nullptr;
+     node* next=nullptr;
      //std::pair<K,V>{key,value}; 
 
-     node(const K& k,const V& v) : key{k}, value{v} {
+     node(const K& k,const V& v) : data{std::make_pair(k,v)} {
        std::cout << "called node copy ctor for ( |"<<k<<"| ,"<<v<<")" << std::endl;
      }
 
-     explicit node(const std::unique_ptr<node>& p) : key{p->key}, value{p->value} {
+     explicit node(const std::unique_ptr<node>& p) : data{p->data} {
        if (p->left)
          left = std::make_unique<node>(p->left);
        if (p->right)
@@ -46,7 +47,7 @@ class bst {
    bst& operator=(bst&& otherbst) noexcept = default;   // default move assignement
 
  //bst(const K key_in, const V val_in): root{new node(key_in,val_in)} { 
-   bst(const K key_in, const V val_in): root{ std::make_unique<node>( node(key_in,val_in)) } { 
+   bst(const K key_in, const V val_in): root{ std::make_unique<node>(node(key_in,val_in)) } { 
 	    std::cout << "called bst custom constructor creating root node with (key,val)=( |"<<key_in<<"| ,"<<val_in<<")" << std::endl; 
             }   ;   // custom constructor
 
@@ -55,10 +56,11 @@ class bst {
 
   /* ----------- bst public iterator ----------------------------------- */ 
   //template <typename OK, typename OV>
-  class __iterator;
 
+  class __iterator;
+  class __const_iterator;
   using iterator = __iterator;
-  using const_iterator = __iterator;
+  using const_iterator = __const_iterator;
 
   iterator begin() noexcept { return iterator{root.get()}; }
   iterator end() { return iterator{nullptr}; }
@@ -71,8 +73,8 @@ class bst {
 
   /* ----------- functions  ----------------------------------- */ 
 
-  void insert(std::pair<K, V>&& newpair);
-  //std::pair<typename __iterator<K,V>,bool> insert(OK&& new_k, OV&& new_v);
+  //void insert(std::pair<K, V>&& newpair);
+  std::pair<__iterator,bool> insert(std::pair<K, V>&& newpair);
 };
 #include "bst.tpp"
 
