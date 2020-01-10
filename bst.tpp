@@ -54,8 +54,10 @@ class bst<K,V,C>::__iterator {
 
   /*------------- functions ----------------------*/
   template <typename K, typename V, typename C>
-  template <typename OK, typename OV>
-  void bst<K,V,C>::insert(OK&& new_k, OV&& new_v){
+  void bst<K,V,C>::insert(std::pair<K,V>&& newpair){
+    //auto newstdpair=std::pair<K,V>(newpair);
+    auto new_k=newpair.first;
+    auto new_v=newpair.second;
   //std::pair<typename bst<K,V,C>::typename __iterator<KO,VO>,bool> bst<K,V,C>::insert(OK&& new_k, OV&& new_v){
   //using iterator =typename bst<K,V,C>::__iterator<KO,VO>
     std::cout << "function (insert) received new node ( |"<<new_k<<"| ,"<<new_v<<")"  << std::endl;

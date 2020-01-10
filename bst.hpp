@@ -71,8 +71,7 @@ class bst {
 
   /* ----------- functions  ----------------------------------- */ 
 
-  template <typename OK, typename OV>
-  void insert(OK&& new_k, OV&& new_v);
+  void insert(std::pair<K, V>&& newpair);
   //std::pair<typename __iterator<K,V>,bool> insert(OK&& new_k, OV&& new_v);
 };
 #include "bst.tpp"

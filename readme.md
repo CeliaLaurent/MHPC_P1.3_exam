@@ -94,7 +94,25 @@ The following constructors were implemented:
 
 ### bst public member functions:
 
+- [ ] ##### construction of a bst object:
+
+in the main, to declare an object:
+
+```c++
+bst<int,std::string> bstobject{};
+```
+
+or
+
+```c++
+bst<int,std::string> bstobject(8,'topnode');
+```
+
 - [ ] ##### Insert
+
+The insert function takes as input any pair that can be casted in a pair of 2 arguments having the the types given in the construction of the bst object.
+
+
 
 ```c++
 std::pair<iterator, bool> insert(const pair_type& x);
