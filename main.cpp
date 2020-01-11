@@ -15,18 +15,18 @@ int main() {
 //std::vector<typename bst<int,std::string>::nodetype> v(11);
   
   //std::vector<std::decay(decltype(*(it0.first)))> v(13);
-//bst<int,std::string> b1{};
-//auto ita{b1.insert({5,"CHIEF"})};
-//auto itb=b1.insert({3,"l"});
-//itb=b1.insert({10,"r"});
-//itb=b1.insert({6,"rl"});
-//itb=b1.insert({4,"lr"});
-//itb=b1.insert({1,"ll"});
-//itb=b1.insert({7,"rlr"});
-//itb=b1.insert({8,"rlrr"});
-//itb=b1.insert({9,"rlrrr"});
-//itb=b1.insert({14,"rr"});
-//itb=b1.insert({13,"rrl"});
+  bst<int,std::string> b1{};
+  auto ita{b1.insert({5,"CHIEF"})};
+  auto itb=b1.insert({3,"l"});
+  itb=b1.insert({10,"r"});
+  itb=b1.insert({6,"rl"});
+  itb=b1.insert({4,"lr"});
+  itb=b1.insert({1,"ll"});
+  itb=b1.insert({7,"rlr"});
+  itb=b1.insert({8,"rlrr"});
+  itb=b1.insert({9,"rlrrr"});
+  itb=b1.insert({14,"rr"});
+  itb=b1.insert({13,"rrl"});
 
 //std::vector<std::pair<const int, std::string>> v(12);
 //std::copy(b1.cbegin(), b1.cend(), v.begin());

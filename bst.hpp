@@ -12,13 +12,10 @@ class bst {
 
    /* --------- node structure ----------------------------------------- */ 
    struct node {
-     //K key;  // key
-     //V value;// value
      std::pair<const K, V> data;
      std::unique_ptr<node> left=nullptr;
      std::unique_ptr<node> right=nullptr;
      node* next=nullptr;
-     //std::pair<K,V>{key,value}; 
 
      node(const K& k,const V& v) : data{std::make_pair(k,v)} {
        std::cout << "called node copy ctor for ( |"<<k<<"| ,"<<v<<")" << std::endl;

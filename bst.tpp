@@ -70,18 +70,20 @@
        while ( test_node ) {
          parent_node=test_node;
          if(op( test_node->data.first , new_k)){
-            test_node=test_node->right.get();
             std::cout << "   -> (insert) going right after visiting node "<<test_node->data.first << std::endl;
+            test_node=test_node->right.get();
           }
-         else if( op( new_k,test_node->data.first )){   test_node=test_node->left.get();
+         else if( op( new_k,test_node->data.first )){ 
             std::cout << "   -> (insert) going left after visiting node "<<test_node->data.first << std::endl;
-          }
+             test_node=test_node->left.get()
+;          }
          else{
             /*--- mew_k is already present in the tree  --- */
             std::cout << "   -> (insert): seems like this key already exist " << std::endl;
             return {test_node->data,false}; 
          }
         }
+       std::cout<<"now deal with new node memory attribution;"<<std::endl; 
        if(op( parent_node->data.first , new_k)){
          parent_node->right = std::make_unique<bst::node>( new_k,new_v); 
          std::cout << "   -> (insert) created a new node |"<<parent_node->right->data.first <<"| on the right of parent node |"<<parent_node->data.first<<"|"<< std::endl;
