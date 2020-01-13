@@ -147,6 +147,49 @@ class bst {
   }
   
   /*------- INSERT ------------------ */
+  std::pair<iterator,bool> insert(const std::pair<const K, V>& newpair)
+  {
+    auto new_k=newpair.first;
+    auto new_v=newpair.second;
+    if(!root){ /*--- if root doesn't exist for this object, create it :--- */
+          root=std::make_unique<bst::node>(node(new_k,new_v) );
+          firstnode=root.get();
+          numpair=1;
+          return  std::make_pair(iterator(root.get()),false) ; 
+      }
+    else {    /*--- else, visit the tree searching for the direct parent of the new node --- */
+       auto parent_test=root.get();
+       auto current_test=root.get();
+       size_t left_steps{0};
+       size_t right_steps{0};
+       while ( current_test ) {
+          parent_test=current_test;
+          if(op( current_test->KVpair.first , new_k)){ /* comparison indicate go right */ 
+             current_test=current_test->right.get();
+             right_steps++;
+             if(!current_test){
+               parent_test->right = std::make_unique<bst::node>( new_k,new_v); 
+               numpair++;
+               return std::make_pair(iterator(parent_test->right.get()),true) ; 
+             }
+           }
+          else if( op( new_k,current_test->KVpair.first )){ /* comparison indicate go left */ 
+             current_test=current_test->left.get();
+             left_steps++;
+             if(!current_test){
+               parent_test->left = std::make_unique<bst::node>( new_k,new_v); 
+               if(!right_steps) firstnode=parent_test->left.get();
+               numpair++;
+               return std::make_pair(iterator(parent_test->left.get()),true)  ;
+             }
+           }
+          else{    /*--- new_k is already present in the tree  --- */
+             return std::make_pair(iterator(current_test),false); 
+          }
+       }
+    }
+  };
+  
   std::pair<iterator,bool> insert(std::pair<const K, V>&& newpair)
   {
     auto new_k=newpair.first;
@@ -202,8 +245,8 @@ class bst {
    std::vector<bool> insertpair(numpair,true);
    //std::vector<iterator> Vec_KVpair;
    //for(auto x: (*this)) Vec_KVpair.push_back(x);
-   std::vector<iterator> Vec_KVpair(numpair);
-   std::copy( bst<K,V,C>::begin(), bst<K,V,C>::end(), Vec_KVpair.begin() );
+   std::vector<std::pair<const K,V>> Vec_KVpair(numpair);
+   std::copy( begin(), end(), Vec_KVpair.begin() );
    clear();
    std::cout<<"re-balancing the tree-----------------------"<<std::endl;
    size_t numbranches{1};
