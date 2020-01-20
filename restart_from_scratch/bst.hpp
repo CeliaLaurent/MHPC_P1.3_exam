@@ -10,27 +10,61 @@
 template <typename K,typename V,typename C= std::less<K>> //Key, Value and Comparison-operator
  class bst{
 	 using node=Node<std::pair<const K,V>>;
-	 std::unique_ptr<node> next;
 	 std::unique_ptr<node> root;
          node* firstnode=nullptr;
 	 C op;
-         int numpair{0};
+         int numpair;
       public:
 	 /* ------- Default Constructor ------------------ */
          bst() noexcept =default;
+
 	 /* ------- Default Destructor  ------------------ */
          ~bst() noexcept = default;
-         /* ----- Constructor taking as argument a -------- *
+
+	 /* ----- Constructor taking as argument a -------- *
 	  * ------comparison-operator object -------------- */
          bst(C op_obj): op{op_obj} {}
-	 /* ------- copy constructor (performs deep copy)- */
-         bst(const bst &) ;
+
 	 /* ------- move constructor                      - */
-         bst(bst &&) ;
+         bst(bst && bst_src):
+		 root{std::move(bst_src.root)},// class type 
+		 firstnode{std::move(bst_src.firstnode)},// class type 
+                 op{std::move(bst_src.op)},
+                 numpair{std::exchange(bst_src.numpair,0)} //non-class type
+	 {std::cout<<"move constructor of a bst object has been called "<<std::endl; } 
+
+	 /* ------- copy constructor (performs deep copy)- */
+         bst(const bst & bst_src){
+	    if(bst_src.root){ 
+                if(root) clear();
+		node* node_src{bst_src.root.get()};
+                root=std::make_unique<node>(node_src->NPair);
+        	if(node_src->left or node_src->right)
+        	  recursively_create_left_or_right(root.get(),node_src);
+		while(node_src->left)
+			 node_src=node_src->left.get();
+		firstnode=node_src;
+            }
+            numpair=bst_src.numpair;
+            op=bst_src.op; 
+            std::cout<<"deep copy constructor of a bst object has been called "<<std::endl;
+         };
+         /* -------- recursive creation of nodes for deep copy constructor --------*/
+         void recursively_create_left_or_right(node * mynode, node * node_src){
+            if(node_src->left){
+               mynode->left=std::make_unique<node>((node_src->left)->NPair,mynode);
+               recursively_create_left_or_right(mynode->left.get(),node_src->left.get());
+            }
+            if(node_src->right){
+               mynode->right=std::make_unique<node>((node_src->right)->NPair,mynode);
+               recursively_create_left_or_right(mynode->right.get(),node_src->right.get());
+            }
+         } 
 
 	 /* -------- some usefull aliases ------------------*/
          using iterator = Iterator<node, std::pair<const K,V> >;
          using const_iterator = Iterator<node,const std::pair<const K,V> >;
+
 
   /*------- BEGIN ------------------ */
   iterator begin() noexcept { return iterator(firstnode); }
@@ -41,9 +75,29 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
   iterator end() noexcept { return iterator(nullptr); }
   const_iterator end() const noexcept { return const_iterator(nullptr); }
 
+  /*--------- Find ------------------ */
+  iterator find(const K & key) noexcept {
+          auto tmp = begin();
+          for (int n=0;n<numpair;n++) {
+            if((*tmp).first==key)
+		    return tmp;
+            tmp ++ ;
+          }
+	  return tmp; 
+  }
+  const_iterator find(const K & key) const noexcept {
+          auto tmp = cbegin();
+          for (int n=0;n<numpair;n++) {
+            if((*tmp).first==key)
+		    return tmp;
+            tmp ++ ;
+          }
+	  return tmp; 
+  }
+
   /*------ Put-to operator <<  ------------------ */
   friend std::ostream& operator<<(std::ostream & os, const bst<K,V,C> & bst_object){
-    auto tmp = bst_object.begin();
+      auto tmp = bst_object.begin();
       os << "[ ";
       for (int n=0;n<bst_object.numpair;n++) {
         os << "["<< (*tmp).first << " , "<< (*tmp).second << "] ; ";
@@ -54,10 +108,11 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
   };
   
 
+  /*------ insert member function  ------------------ */
   std::pair<iterator,bool> insert(const std::pair<const K, V>& newpair)
   {
     if(!root){ /*--- if root doesn't exist for this object, create it :--- */
-          root=std::make_unique<node>(node(newpair,nullptr));
+          root=std::make_unique<node>(node(newpair));
           firstnode=root.get();
           numpair=1;
           return  std::make_pair(iterator(root.get()),false) ; 
@@ -93,12 +148,13 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
           }
        }
     }
+    return std::make_pair(iterator(root.get()),false); 
   }
   
   std::pair<iterator,bool> insert(std::pair<const K, V>&& newpair)
   {
     if(!root){ /*--- if root doesn't exist for this object, create it :--- */
-          root=std::make_unique<node>(newpair,nullptr);
+          root=std::make_unique<node>(newpair);
           firstnode=root.get();
           numpair=1;
           return  std::make_pair(iterator(root.get()),false) ; 
@@ -134,6 +190,7 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
           }
        }
     }
+    return std::make_pair(iterator(root.get()),false); 
   }
   /*------- EMPLACE ------------------ */
 //std::pair<iterator, bool> emplace(Types&&... args){ return insert({std::forward<Types>(args)...});}
@@ -153,7 +210,6 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
       }
    int numpair_tmp=numpair;
    clear();
-   std::cout<<"bst re-balanced"<<std::endl;
    size_t numbranches{1};
    insert(Vec_KVpair[numpair_tmp/2]);
    int insertedpairs{0};
