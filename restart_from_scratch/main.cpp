@@ -68,6 +68,15 @@ int main() {
       else
 	      std::cout<<key<<" is NOT in bst_copied"<<std::endl;
   } 
+
+  /********* Testing []operator *******************************************************/
+  std::cout<<std::endl<<" Testing [] operator "<<std::endl;
+  for(size_t test{1};test<8;test++){  // Try to insert up to 50 more pairs of key, value
+     key=rand()%10;     
+     std::cout<<"bst_ii["<<key<<"] returns value : "<<bst_ii[key]<<std::endl;
+  }
+  std::cout<<bst_ii<<std::endl;
+
   std::cout << "MAIN ENDED NORMALLY"<< std::endl;
   return 0;
 }

@@ -94,6 +94,12 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
           }
 	  return tmp; 
   }
+  /*------ Subscripting operator ---------------- */
+  V & operator[](const K& key){
+	  if( (*(find(key))).first==key ) return (*(find(key))).second;
+	  insert({key,NULL});
+          return (*(find(key))).second;
+  }
 
   /*------ Put-to operator <<  ------------------ */
   friend std::ostream& operator<<(std::ostream & os, const bst<K,V,C> & bst_object){
