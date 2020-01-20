@@ -10,6 +10,7 @@
 int main() {
   /********** Construction of a bst object of type <int,int> **************************/
   bst<int,int> bst_ii; 
+  //bst<int,int,std::greater<int>> bst_ii{as_function_ptr<std::greater<int>()}; 
 
   /********** Testing the insert member function **************************************/
   srand(time(0));  // Initialize random number generator
@@ -27,7 +28,6 @@ int main() {
    ********* the balance member function       ****************************************
    ********* and doing so, as well operator ++ *****************************************/
   std::cout<<bst_ii<<std::endl;
-
   bst_ii.balance();
   std::cout<<bst_ii<<std::endl;
 

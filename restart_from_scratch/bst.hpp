@@ -16,19 +16,19 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
 	 C op;
          int numpair{0};
       public:
-	 /*  Default Constructor */
+	 /* ------- Default Constructor ------------------ */
          bst() noexcept =default;
+	 /* ------- Default Destructor  ------------------ */
          ~bst() noexcept = default;
-//////// /*  Constructor taking as argument a comparison-operator object */
-//////// bst(C op_obj): op{op_obj} {}
-//////// 
-//////// /*  Constructor taking as argument a comparison-operator object */
-//////// bst(C op_obj): op{op_obj} {}
-////////                                              
-//////// /*  Constructor taking as argument another bst-object           */
-//////// bst (const bst & bst_obj).op{bst_obj.op} {
-////////	// if(bst_obj.root) ... reset ...
-//////// }
+         /* ----- Constructor taking as argument a -------- *
+	  * ------comparison-operator object -------------- */
+         bst(C op_obj): op{op_obj} {}
+	 /* ------- copy constructor (performs deep copy)- */
+         bst(const bst &) ;
+	 /* ------- move constructor                      - */
+         bst(bst &&) ;
+
+	 /* -------- some usefull aliases ------------------*/
          using iterator = Iterator<node, std::pair<const K,V> >;
          using const_iterator = Iterator<node,const std::pair<const K,V> >;
 
@@ -41,7 +41,7 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
   iterator end() noexcept { return iterator(nullptr); }
   const_iterator end() const noexcept { return const_iterator(nullptr); }
 
-  /*--------- operator <<  ------------------ */
+  /*------ Put-to operator <<  ------------------ */
   friend std::ostream& operator<<(std::ostream & os, const bst<K,V,C> & bst_object){
     auto tmp = bst_object.begin();
       os << "[ ";
@@ -93,7 +93,7 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
           }
        }
     }
-  };
+  }
   
   std::pair<iterator,bool> insert(std::pair<const K, V>&& newpair)
   {
@@ -134,7 +134,9 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
           }
        }
     }
-  };
+  }
+  /*------- EMPLACE ------------------ */
+//std::pair<iterator, bool> emplace(Types&&... args){ return insert({std::forward<Types>(args)...});}
 
   /*------- CLEAR ------------------ */
   void clear() {root.reset();}
@@ -158,7 +160,7 @@ template <typename K,typename V,typename C= std::less<K>> //Key, Value and Compa
    numbranches=1;
    while(insertedpairs<numpair_tmp){
      for(size_t branch{0}; branch<numbranches ; branch++){
-       for(size_t pos=int((float(branch)+0.5)*(float(numpair_tmp)/float(numbranches)));pos<numpair_tmp ;pos++){
+       for(int pos=int((float(branch)+0.5)*(float(numpair_tmp)/float(numbranches)));pos<numpair_tmp ;pos++){
          if(insertpair[pos]){
            insert(Vec_KVpair[pos]);
            insertpair[pos]=false;
